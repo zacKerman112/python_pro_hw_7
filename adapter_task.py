@@ -1,59 +1,71 @@
 import json
 
 
-# SERVICES
 class MessageSender:
-    def send_message(self, message: str):
-        """a blueprint function for sending messages"""
+    """Базовий інтерфейс для відправки повідомлень."""
+
+    def send_message(self, message: str) -> None:
+        """Метод-шаблон для відправки повідомлення."""
         pass
 
 
 class SMSService:
-    def send_sms(self, phone_number, message) -> None:
-        """a sms sending function"""
+    """Сервіс для роботи з SMS."""
+
+    def send_sms(self, phone_number: str, message: str) -> None:
+        """Функція відправки SMS-повідомлення."""
         print(f"The message {message} has been sent to number {phone_number}")
 
 
 class EmailService:
-    def send_email(self, email_adress, message) -> None:
-        """an email sending function"""
-        print(f"An email {message} has been sent to {email_adress}")
+    """Сервіс для роботи з Email."""
+
+    def send_email(self, email_address: str, message: str) -> None:
+        """Функція відправки Email-повідомлення."""
+        print(f"An email {message} has been sent to {email_address}")
 
 
 class PushService:
-    def send_push(self, device_id, message) -> None:
-        """a push sending function"""
-        print(f"Pushed to a device {device_id}: {message}")
+    """Сервіс для роботи з Push-повідомленнями."""
+
+    def send_push(self, device_id: str, message: str) -> None:
+        """Функція відправки Push-повідомлення."""
+        print(f"Push to a device {device_id}: {message}")
 
 
-# ADAPTERS
 class SMSAdapter(MessageSender):
-    def __init__(self, service: SMSService, phone: str):
+    """Адаптер для SMSService."""
+
+    def __init__(self, service: SMSService, phone: str) -> None:
         self.service = service
         self.phone = phone
 
     def send_message(self, message: str) -> None:
-        """q sending message function from parent class"""
+        """Реалізація методу через SMSService."""
         self.service.send_sms(self.phone, message)
 
 
 class EmailAdapter(MessageSender):
-    def __init__(self, service: EmailService, email: str):
+    """Адаптер для EmailService."""
+
+    def __init__(self, service: EmailService, email: str) -> None:
         self.service = service
         self.email = email
 
     def send_message(self, message: str) -> None:
-        """q sending message function from parent class"""
+        """Реалізація методу через EmailService."""
         self.service.send_email(self.email, message)
 
 
 class PushAdapter(MessageSender):
-    def __init__(self, service: PushService, id: str):
+    """Адаптер для PushService."""
+
+    def __init__(self, service: PushService, device_id: str) -> None:
         self.service = service
-        self.id = id
+        self.id = device_id
 
     def send_message(self, message: str) -> None:
-        """q sending message function from parent class"""
+        """Реалізація методу через PushService."""
         self.service.send_push(self.id, message)
 
 
@@ -61,7 +73,7 @@ sms_srv = SMSService()
 email_srv = EmailService()
 push_srv = PushService()
 
-senders = [
+senders: list[MessageSender] = [
     SMSAdapter(sms_srv, "+380991234567"),
     EmailAdapter(email_srv, "user@example.com"),
     PushAdapter(push_srv, "device_99")

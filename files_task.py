@@ -1,8 +1,8 @@
 import csv
 
-def process_students_data(file_path) -> None:
-    """a function for editing information in students table"""
-    students = []
+
+def process_students_data(file_path: str) -> None:
+    students: list[dict[str, str]] = []
 
     try:
         with open(file_path, mode="r", encoding="utf-8") as file:
@@ -11,8 +11,7 @@ def process_students_data(file_path) -> None:
                 students.append(row)
 
         if students:
-
-            total_score = sum(int(s['mark'])for s in students)
+            total_score = sum(int(s['mark']) for s in students)
             average_scr = total_score / len(students)
             print(f"Average mark: {average_scr:.2f}")
 
@@ -29,6 +28,7 @@ def process_students_data(file_path) -> None:
 
     except Exception as e:
         print(f"Some error: {e}")
+
 
 if __name__ == "__main__":
     process_students_data('students.csv')

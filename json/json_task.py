@@ -2,22 +2,21 @@ import json
 from json import JSONDecodeError
 
 
-def process_books(file_path) -> None:
-    """a function for editing boors info in json files"""
+def process_books(file_path: str) -> None:
+    """A function for editing books information in JSON files."""
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
             books = json.load(file)
 
-        print("The list of avaliable books:")
+        print("The list of available books:")
 
-        avaliable_books = [book for book in books if book.get('наявність') is True]
+        available_books = [book for book in books if book.get('наявність') is True]
 
-        if avaliable_books:
-           for book in avaliable_books:
-               print(f"The book {book['назва']} ({book['автор']})")
-
+        if available_books:
+            for book in available_books:
+                print(f"The book {book['назва']} ({book['автор']})")
         else:
-            print("Sadly no books avaliable")
+            print("Sadly no books available")
 
         new_book = {
             "назва": "Грокаємо алгоритми",
@@ -29,6 +28,7 @@ def process_books(file_path) -> None:
 
         with open(file_path, "w", encoding="utf-8") as file:
             json.dump(books, file, indent=4, ensure_ascii=False)
+
         print(f"\n A book called '{new_book['назва']}' was successfully added")
 
     except FileNotFoundError:
