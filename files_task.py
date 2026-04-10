@@ -2,6 +2,7 @@ import csv
 
 
 def process_students_data(file_path: str) -> None:
+    """A function for reading, calculating average marks, and adding students to a CSV file."""
     students: list[dict[str, str]] = []
 
     try:
